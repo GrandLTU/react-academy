@@ -1,35 +1,63 @@
 import React from 'react';
 import { Rating } from './rating';
+import {withRouter} from 'react-router-dom';
+import {connect} from "react-redux";
+import Preloader from './preloader'
+import classNames from 'classnames';
+import {loadMovie} from "../../core/modules/movie/movieActions";
+import {getImageUrl} from "../../core/api";
 
-export const Movie = () => {
-  return (
-    <div className="row">
-      <div className="col-sm-8 col-sm-offset-2">
-        <div className="row">
-          <div className="col-sm-4">
-            <div className="movie-list-item"
-                 style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w640/9E2y5Q7WlCVNEhP5GiVTjhEhx1o.jpg')`}}>
-              <span className="movie-list-item__rating">6.9</span>
-            </div>
-          </div>
+class Movie extends React.Component {
+    componentDidMount() {
+        this.props.onLoadMovie(this.props.match.params.movieId);
+    }
 
-          <div className="col-sm-8">
-            <div className="release-date">
-              Release date: <strong>2017-12-0</strong>
-            </div>
+    render() {
+        return (
+            <Preloader name="movie">
+                {!this.props.movie ? '' : (
+                    <div className="row">
+                        <div className="col-sm-8 col-sm-offset-2">
+                            <div className="row">
+                                <div className="col-sm-4">
+                                    <div className="movie-list-item"
+                                         style={{ backgroundImage: `url('${getImageUrl(this.props.movie)}')`}}>
+                                        <span className="movie-list-item__rating">{this.props.movie.vote_average}</span>
+                                    </div>
+                                </div>
 
-            <div className="title">
-              Jumanji: Welcome to the Jungle
-            </div>
+                                <div className="col-sm-8">
+                                    <div className="release-date">
+                                        Release date: <strong>{this.props.movie.release_date}</strong>
+                                    </div>
 
-            <div className="description">
-              The tables are turned as four teenagers are sucked into Jumanji's world - pitted against rhinos, black mambas and an endless variety of jungle traps and puzzles. To survive, they'll play as characters from the game.
-            </div>
+                                    <div className="title">
+                                        {this.props.movie.title}
+                                    </div>
 
-            <Rating score="6.9"/>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-};
+                                    <div className="description">
+                                        {this.props.movie.overview}
+                                    </div>
+
+                                    <Rating score={this.props.movie.vote_average}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </Preloader>
+        )
+    }
+}
+
+const mapStateToProps = state => ({movie: state.movie});
+
+const mapDispatchToProps = dispatch => ({
+    onLoadMovie: (movieId) => dispatch(loadMovie(movieId)),
+});
+
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Movie));

@@ -1,6 +1,8 @@
 import React from 'react';
 
 export class Rating extends React.Component {
+  timeout;
+
   constructor() {
     super();
 
@@ -9,11 +11,16 @@ export class Rating extends React.Component {
     }
   }
   componentDidMount() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.setState({
         score: this.props.score
       });
     }, 100);
+  }
+  componentWillUnmount() {
+    if (this.timeout) {
+        clearTimeout(this.timeout);
+    }
   }
   render() {
     const { score } = this.state;

@@ -1,58 +1,65 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Home } from './home';
-import { GenreNotSelected } from './genre-not-selected';
-import { Genre } from './genre';
-import { Movie } from './movie';
-import { List } from './list';
+import classNames from 'classnames';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="app-image"
-           style={{ backgroundImage: `url('https://image.tmdb.org/t/p/original/AdYJMNhcXVeqjRenSHP88oaLCaC.jpg')`}}>
-        <div className="app-colors">
-          <div className="app-container">
-            <div className="header">
-              <Link to="/" className="header__logo">MOVIES</Link>
+class AllPages extends React.Component {
+    constructor(...args) {
+        super(...args);
+        this.isActive = this.isActive.bind(this);
+    }
 
-              <div className="header__action">Genres</div>
-              <div className="header__action is-active">Most popular</div>
-              <div className="header__action">Top rated</div>
-              <div className="header__action">Upcomming</div>
+    isActive(path) {
+        return this.props.location.pathname.startsWith(path);
+    }
 
-              <div className="header-search">
-                <input type="text" className="header-search__input" />
-                <div className="header-search__button">
-                  <i className="fa fa-search" />
+    render() {
+        const pages = {
+            '/': {title: 'MOVIES', logo: true},
+            '/genres': {title:'Genres', logo: false},
+            '/most-popular': {title:'Most popular', logo: false},
+            '/top-rated': {title:'Top rated', logo: false},
+            '/upcoming': {title:'Upcoming', logo: false},
+        };
+
+        return (
+            <div className="app-image"
+                 style={{ backgroundImage: `url('${this.props.background}')`}}>
+                <div className="app-colors">
+                    <div className="app-container">
+                        <div className="header">
+                            {Object.entries(pages).map(([path, {title, logo}]) => (
+                                <Link key={path} to={path} className={classNames({
+                                    'header__logo': logo,
+                                    'header__action': !logo,
+                                    'is-active': !logo && this.isActive(path)
+                                })}>{title}</Link>
+                            ))}
+
+                            <div className="header-search">
+                                <input type="text" className="header-search__input" />
+                                <div className="header-search__button">
+                                    <i className="fa fa-search" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="container-fluid">
+                            {this.props.children}
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-
-            <div className="container-fluid">
-              {/* Pages */}
-
-              <Home />
-              {/*<GenreNotSelected />*/}
-              {/*<Genre />*/}
-              {/*<List />*/}
-              {/*<Movie />*/}
-            </div>
-
-            {this.props.children}
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({background: state.background});
 
 const mapDispatchToProps = () => ({});
 
 export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App));
+    mapStateToProps,
+    mapDispatchToProps,
+)(AllPages));
+
