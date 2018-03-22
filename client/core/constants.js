@@ -10,6 +10,7 @@ export const constants = {
         LOAD_POPULAR: 'movies.LOAD_POPULAR',
         LOAD_TOP_RATED: 'movies.LOAD_TOP_RATED',
         LOAD_UPCOMING: 'movies.LOAD_UPCOMING',
+        LOAD_SEARCH: 'movies.LOAD_SEARCH',
     },
     movie: {
         LOAD: 'movie.LOAD',

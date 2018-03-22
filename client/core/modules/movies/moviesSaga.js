@@ -1,6 +1,6 @@
 import {all, put, takeLatest} from "redux-saga/effects";
 import {startPreloader, stopPreloader} from "../preloader/preloaderActions";
-import {getMovie, getPopularMovies, getTopRatedMovies, getUpcomingMovies} from "../../api";
+import {getPopularMovies, getTopRatedMovies, getUpcomingMovies, searchMovies} from "../../api";
 import {setMovies} from "./moviesActions";
 import {constants} from "../../constants";
 import filterMovies from "../../filterMovies";
@@ -38,10 +38,22 @@ function* onLoadUpcoming() {
     yield put(stopPreloader('upcoming'));
 }
 
+function* onLoadSearch({payload: {query}}) {
+    yield put(startPreloader('search'));
+    const {response, error} = yield searchMovies(query);
+
+    if (response) {
+        yield put(setMovies(response.data.results));
+    }
+
+    yield put(stopPreloader('search'));
+}
+
 export default function* moviesSaga() {
     yield all([
         takeLatest(constants.movies.LOAD_POPULAR, onLoadPopular),
         takeLatest(constants.movies.LOAD_TOP_RATED, onLoadTopRated),
         takeLatest(constants.movies.LOAD_UPCOMING, onLoadUpcoming),
+        takeLatest(constants.movies.LOAD_SEARCH, onLoadSearch),
     ]);
 }

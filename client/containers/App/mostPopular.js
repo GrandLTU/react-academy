@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import Preloader from './preloader'
+import Preloader from '../Component/preloader'
 import MovieList from "../Component/movieList";
 import {loadPopular} from "../../core/modules/movies/moviesActions";
 

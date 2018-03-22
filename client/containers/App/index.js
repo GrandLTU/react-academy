@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import classNames from 'classnames';
+import Search from '../Component/search'
 
 class AllPages extends React.Component {
     constructor(...args) {
@@ -36,12 +37,7 @@ class AllPages extends React.Component {
                                 })}>{title}</Link>
                             ))}
 
-                            <div className="header-search">
-                                <input type="text" className="header-search__input" />
-                                <div className="header-search__button">
-                                    <i className="fa fa-search" />
-                                </div>
-                            </div>
+                            <Search/>
                         </div>
 
                         <div className="container-fluid">

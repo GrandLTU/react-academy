@@ -2,7 +2,7 @@ import React from 'react';
 import { Rating } from './rating';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import Preloader from './preloader'
+import Preloader from '../Component/preloader'
 import classNames from 'classnames';
 import {loadMovie} from "../../core/modules/movie/movieActions";
 import {getImageUrl} from "../../core/api";

@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import {loadGenres} from "../../../core/modules/genres/genresActions";
-import Preloader from '../preloader'
+import Preloader from '../../Component/preloader'
 import classNames from 'classnames';
 
 class GenreList extends React.Component {

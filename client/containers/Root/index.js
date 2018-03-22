@@ -10,6 +10,7 @@ import Movie from "../App/movie";
 import MostPopular from "../App/mostPopular";
 import TopRated from "../App/topRated";
 import Upcoming from "../App/upcoming";
+import Search from "../App/search";
 
 const Root = ({ store, history }) => (
   <BrowserRouter>
@@ -22,7 +23,7 @@ const Root = ({ store, history }) => (
             <Route path="/upcoming" exact={true} component={Upcoming}/>
             <Route path="/movie/:movieId" exact={true} component={Movie}/>
             <Route path="/wishlist" exact={true} component={List}/>
-            <Route path="/search" exact={true} component={List}/>
+            <Route path="/search" exact={true} component={Search}/>
             <Route path="/" exact={true} component={Home}/>
             <Route path="/genres/:genre?" component={Genre}/>
             <Route path="/" component={() => '404'}/>

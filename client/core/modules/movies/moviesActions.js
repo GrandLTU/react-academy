@@ -29,3 +29,12 @@ export const loadUpcoming = () => {
         payload: {}
     }
 };
+
+export const loadSearch = (query) => {
+    return {
+        type: constants.movies.LOAD_SEARCH,
+        payload: {
+            query
+        }
+    }
+};
